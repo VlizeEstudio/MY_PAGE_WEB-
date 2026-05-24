@@ -1,1046 +1,123 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Maxim Cruz</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --bg:      #080808;
-            --bg2:     #0f0f0f;
-            --card:    #111111;
-            --border:  rgba(255,255,255,0.06);
-            --white:   #f0f0f0;
-            --muted:   rgba(240,240,240,0.35);
-            --accent:  #f0f0f0;
-            --dim:     rgba(255,255,255,0.08);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maxim Cruz</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;700;900&display=swap" rel="stylesheet">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body {
-            background: var(--bg);
-            color: var(--white);
-            font-family: 'Anton', sans-serif;
-            overflow-x: hidden;
-        }
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ background:#000; color:white; font-family:'Inter',sans-serif; min-height:100vh; overflow-x:hidden; }
+.container{ max-width:420px; margin:auto; padding:18px; perspective: 1200px; }
 
-        /* grain */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.5;
-        }
+/* PORTADA */
+.about-me{ position:relative; width:100%; height:310px; border-radius:28px; overflow:hidden; display:flex; justify-content:center; align-items:center; margin-bottom:22px; background: linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,.9)), radial-gradient(circle at center, rgba(255,255,255,.05) 1px, transparent 1px); background-size:cover,22px 22px; }
+.hero-bg{ position:absolute; top: 50%; left: 50%; z-index: 1; font-size: 24vw; font-weight:900; letter-spacing:-4px; color:rgba(255,255,255,.12); white-space:nowrap; user-select:none; pointer-events:none; opacity: 0; transform: translate(-50%, -50%) scale(0.8); filter: blur(10px); animation: epicReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; }
+.hero-content{ position:relative; z-index:2; text-align:center; }
+.hero-top{ margin-bottom:10px; color:rgba(255,255,255,.75); font-size:11px; letter-spacing:4px; opacity: 0; animation: fadeIn 1s ease 0.8s forwards; }
+.about-me h1{ line-height:.9; font-size:42px; font-weight:900; color:#fff; -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 4%, #fff 14%, #fff 86%, rgba(255,255,255,0.3) 96%, transparent 100%); opacity: 0; letter-spacing: 4px; animation: tlouErosionReveal 2.2s cubic-bezier(0.25, 1, 0.25, 1) 0.4s forwards; }
 
-        /* ── HERO ── */
-        header {
-            position: relative;
-            width: 100%;
-            min-height: 65svh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            padding: 48px 24px 40px;
-        }
+/* SECCIÓN ACERCA DE */
+.section-title{ display: block; text-align: center; font-size: 11px; font-weight: 400; letter-spacing: 4px; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; margin-bottom: 14px; opacity: 0; animation: fadeInUp 0.8s ease forwards; animation-delay: 1.1s; }
+.bio-container { width: 100%; background: #050505; border-radius: 26px; padding: 24px; margin-bottom: 15px; display: flex; align-items: center; gap: 20px; border: 1px solid rgba(255,255,255,0.05); opacity: 0; transform: translateY(25px) scale(0.97); animation: appModernReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards; }
+.bio-text { color: #a1a1aa; font-size: 13px; line-height: 1.5; flex: 1; margin-bottom: 0; }
+.video-thumbnail { min-width: 85px; height: 85px; border-radius: 50%; position: relative; cursor: pointer; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s ease; }
+.video-thumbnail img { width: 100%; height: 100%; object-fit: cover; }
+.video-thumbnail .play-icon { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.3); }
+.video-thumbnail .play-icon svg { width: 35px; height: 35px; fill: white; opacity: 0.7; }
+.video-thumbnail:hover { transform: scale(1.05); }
 
-        header::after {
-            content: '';
-            position: absolute;
-            top: 42%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 360px; height: 360px;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 68%);
-            pointer-events: none;
-            animation: pulse 5s ease-in-out infinite alternate;
-        }
-        @keyframes pulse {
-            from { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
-            to   { opacity: 1;   transform: translate(-50%,-50%) scale(1.12); }
-        }
+/* ICONOS SOCIALES */
+.social-container { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 30px; opacity: 0; animation: fadeIn 1s ease 1.5s forwards; }
+.social-icon { width: 28px; height: 28px; fill: white; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0.7; }
+.social-icon:hover { transform: scale(1.2); opacity: 1; }
+.nlg-link { color: white; text-decoration: none; font-weight: 700; font-size: 18px; opacity: 0.7; transition: 0.3s; }
+.nlg-link:hover { opacity: 1; transform: scale(1.1); }
 
-        .hero-inner {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-            opacity: 0;
-            animation: riseIn 1.1s cubic-bezier(0.16,1,0.3,1) forwards 0.25s;
-        }
+/* VIDEO SIN CUADRO, SOLO REC */
+#inlineVideoWrapper { height: 0; opacity: 0; overflow: hidden; transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); transform-style: preserve-3d; position: relative; }
+#inlineVideoWrapper.active { height: 480px; opacity: 1; margin-bottom: 28px; transform: rotateX(8deg) scale(0.85); }
 
-        .hero-eyebrow {
-            font-family: 'Space Mono', monospace;
-            font-size: 8px;
-            letter-spacing: 0.6em;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            opacity: 0.7;
-        }
+.rec-indicator { position: absolute; top: 15px; left: 15px; z-index: 10; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 1px; }
+.red-dot { width: 8px; height: 8px; background: red; border-radius: 50%; animation: blink 1s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        .hero-name {
-            line-height: 0.85;
-            text-align: center;
-        }
-        .hero-name .n1 {
-            display: block;
-            font-size: clamp(80px, 24vw, 130px);
-            letter-spacing: 0.12em;
-            color: var(--white);
-        }
-        .hero-name .n2 {
-            display: block;
-            font-size: clamp(80px, 24vw, 130px);
-            letter-spacing: 0.12em;
-            color: transparent;
-            -webkit-text-stroke: 1.5px rgba(255,255,255,0.45);
-            transform: translateX(10px);
-        }
+#inlineVideo { width: 100%; height: 100%; object-fit: contain; background: transparent; border-radius: 0; }
 
-        .hero-age {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.45em;
-            color: var(--muted);
-            text-transform: uppercase;
-            margin-top: 24px;
-        }
+/* PROGRESO */
+.phone{ width:100%; background:#050505; border-radius:26px; padding:18px; border:1px solid rgba(255,255,255,.06); box-shadow:0 10px 40px rgba(0,0,0,.7); opacity: 0; animation: appModernReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.5s forwards; }
+.card{ background:#0b0b0b; border-radius:22px; padding:10px; border:1px solid rgba(255,255,255,.05); }
+.habit{ display:flex; justify-content:space-between; align-items:center; padding:18px 10px; border-bottom:1px solid rgba(255,255,255,.07); }
+.habit:last-child{ border:none; }
+.left{ display:flex; align-items:center; gap:16px; }
+.icon{ width:70px; height:70px; border-radius:18px; background:#111; display:flex; justify-content:center; align-items:center; }
+.icon svg{ width:34px; height:34px; stroke:white; }
+.habit-info h3{ font-size:20px; font-weight:700; margin-bottom:5px; }
+.habit-info p{ color:#a1a1aa; font-size:15px; }
+.progress{ width:74px; height:74px; border-radius:50%; display:flex; justify-content:center; align-items:center; background: conic-gradient(#22c55e var(--percent), #1b1b1b 0); position:relative; }
+.progress::before{ content:""; position:absolute; width:58px; height:58px; border-radius:50%; background:#050505; }
+.progress span{ position:relative; z-index:2; font-size:18px; font-weight:700; }
 
-        @keyframes riseIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ── SOCIAL SECTION ── */
-        .social-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            padding: 32px 20px 44px;
-            position: relative;
-        }
-        .social-section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 50%; transform: translateX(-50%);
-            width: 1px; height: 32px;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2));
-        }
-        .social-handle {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.35em;
-            color: var(--muted);
-            text-transform: lowercase;
-        }
-        .ig-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            padding: 13px 36px;
-            border: 1.5px solid rgba(255,255,255,0.2);
-            border-radius: 50px;
-            color: var(--white);
-            font-family: 'Anton', sans-serif;
-            font-size: 12px;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .ig-btn::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .ig-btn:hover::before { opacity: 1; }
-        .ig-btn:hover { border-color: transparent; transform: translateY(-2px); }
-        .ig-btn span, .ig-btn i { position: relative; z-index: 1; }
-
-        .heart-wrap a {
-            color: var(--muted);
-            font-size: 21px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-        .heart-wrap a.liked,
-        .heart-wrap a:hover { color: #e11d48; transform: scale(1.22); }
-
-        /* ── SECTION LABEL ── */
-        .sl {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 60px 28px 22px;
-            justify-content: center;
-        }
-        .sl hr { flex: 1; max-width: 44px; border: none; height: 1px; background: var(--dim); }
-        .sl span {
-            font-family: 'Space Mono', monospace;
-            font-size: 8px;
-            letter-spacing: 0.55em;
-            text-transform: uppercase;
-            color: var(--accent);
-            opacity: 0.75;
-        }
-
-        /* ── CHAT ABOUT ── */
-        .chat-wrap {
-            padding: 20px 24px 64px;
-            max-width: 420px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .chat-msg {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            opacity: 0;
-            transform: translateY(14px) scale(0.98);
-            transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1),
-                        transform 0.45s cubic-bezier(0.16,1,0.3,1);
-            max-width: 78%;
-        }
-        .chat-msg.in {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .chat-q { align-self: flex-start; }
-        .chat-q .chat-who {
-            font-family: 'Space Mono', monospace;
-            font-size: 7px;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 4px;
-            padding-left: 4px;
-            opacity: 0.6;
-        }
-        .chat-q .chat-bubble {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            line-height: 1.65;
-            color: rgba(240,240,240,0.55);
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 2px 14px 14px 14px;
-            padding: 10px 14px;
-        }
-
-        .chat-a { align-self: flex-end; text-align: right; }
-        .chat-a .chat-who {
-            font-family: 'Space Mono', monospace;
-            font-size: 7px;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 4px;
-            padding-right: 4px;
-            opacity: 0.6;
-        }
-        .chat-a .chat-bubble {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.6;
-            letter-spacing: 0.01em;
-            color: var(--white);
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.14);
-            border-radius: 14px 2px 14px 14px;
-            padding: 12px 16px;
-            display: inline-block;
-        }
-
-        .chat-tick {
-            font-size: 9px;
-            color: rgba(255,255,255,0.25);
-            padding-right: 4px;
-            opacity: 0;
-            transition: opacity 0.4s ease 0.2s;
-        }
-        .chat-msg.in .chat-tick { opacity: 1; }
-
-        .chat-typing {
-            align-self: flex-start;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 2px 14px 14px 14px;
-            padding: 12px 18px;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            pointer-events: none;
-            margin-bottom: 4px;
-        }
-        .chat-typing.right {
-            align-self: flex-end;
-            border-radius: 14px 2px 14px 14px;
-        }
-        .chat-typing.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .chat-typing span {
-            width: 5px; height: 5px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.35);
-            animation: typedot 1.1s ease-in-out infinite;
-        }
-        .chat-typing span:nth-child(2) { animation-delay: 0.18s; }
-        .chat-typing span:nth-child(3) { animation-delay: 0.36s; }
-        @keyframes typedot {
-            0%,60%,100% { transform: translateY(0); opacity: 0.25; }
-            30%          { transform: translateY(-5px); opacity: 1; }
-        }
-
-        /* ── MUSIC ── */
-        .music-section {
-            padding: 16px 24px 64px;
-            max-width: 420px;
-            margin: 0 auto;
-        }
-
-        .music-card {
-            background: #0e0e0e;
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 28px 24px 24px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .music-canvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease;
-            pointer-events: none;
-            border-radius: 20px;
-        }
-        .music-canvas.active { opacity: 1; }
-
-        .music-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 10%; right: 10%; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-            z-index: 1;
-        }
-
-        .music-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .music-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 8px;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        .music-eq {
-            display: flex;
-            align-items: flex-end;
-            gap: 3px;
-            height: 14px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .music-eq.playing { opacity: 1; }
-        .music-eq span {
-            width: 3px;
-            background: var(--white);
-            border-radius: 2px;
-            animation: eq 0.8s ease-in-out infinite alternate;
-        }
-        .music-eq span:nth-child(1) { height: 40%; animation-delay: 0s; }
-        .music-eq span:nth-child(2) { height: 100%; animation-delay: 0.15s; }
-        .music-eq span:nth-child(3) { height: 60%; animation-delay: 0.3s; }
-        .music-eq span:nth-child(4) { height: 80%; animation-delay: 0.1s; }
-        @keyframes eq {
-            from { transform: scaleY(0.3); }
-            to   { transform: scaleY(1); }
-        }
-
-        .music-info {
-            margin-bottom: 22px;
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-        .music-cover {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            margin: 0 auto 12px;
-            box-shadow: 0 8px 32px rgba(255,255,255,0.1);
-            object-fit: cover;
-            transition: all 0.3s ease;
-            opacity: 0.88;
-        }
-        .music-cover.active {
-            transform: scale(1.05);
-            box-shadow: 0 12px 40px rgba(255,255,255,0.15);
-            opacity: 1;
-        }
-        .music-title {
-            font-family: 'Anton', sans-serif;
-            font-size: 26px;
-            letter-spacing: 0.04em;
-            color: var(--white);
-            line-height: 1.1;
-        }
-        .music-artist {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 5px;
-        }
-
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .music-progress-wrap {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .music-progress-bg {
-            width: 100%;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .music-progress-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--white);
-            border-radius: 4px;
-            transition: width 0.5s linear;
-        }
-
-        .music-times {
-            display: flex;
-            justify-content: space-between;
-        }
-        .music-times span {
-            font-family: 'Space Mono', monospace;
-            font-size: 8px;
-            color: var(--muted);
-            letter-spacing: 0.1em;
-        }
-
-        .music-play-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--white);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: transform 0.2s ease;
-        }
-        .music-play-btn:hover { transform: scale(1.08); }
-        .music-play-btn:active { transform: scale(0.95); }
-        .music-play-btn i {
-            color: var(--bg);
-            font-size: 14px;
-            margin-left: 2px;
-        }
-        .music-play-btn.playing i { margin-left: 0; }
-
-        /* ── GALLERY ── */
-        .gallery-section {
-            padding: 0 0 64px;
-        }
-
-        .g-track {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .g-track::-webkit-scrollbar { display: none; }
-
-        .g-card {
-            flex: 0 0 100vw;
-            scroll-snap-align: start;
-            padding: 0 24px;
-            position: relative;
-        }
-
-        .g-card-inner {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #111;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-            opacity: 0;
-            transform: scale(0.97) translateY(12px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .g-card-inner.vis {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-
-        .g-card img {
-            width: 100%;
-            height: 460px;
-            object-fit: cover;
-            object-position: top center;
-            display: block;
-            filter: brightness(0.88);
-            transition: filter 0.5s ease;
-        }
-        .g-card-inner:hover img { filter: brightness(1); }
-
-        .g-card-inner::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 100px;
-            background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
-            pointer-events: none;
-        }
-
-        .g-card-num {
-            position: absolute;
-            bottom: 16px;
-            left: 40px;
-            font-family: 'Space Mono', monospace;
-            font-size: 7px;
-            letter-spacing: 0.35em;
-            color: rgba(255,255,255,0.4);
-            z-index: 1;
-        }
-
-        .g-dots {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            padding: 16px 0 0;
-        }
-        .g-dot {
-            width: 5px; height: 5px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.18);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .g-dot.active {
-            background: var(--white);
-            transform: scale(1.3);
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            padding: 72px 32px 56px;
-            text-align: center;
-            background: var(--bg);
-            border-top: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-        .f-name {
-            font-family: 'Anton', sans-serif;
-            font-size: 20px;
-            letter-spacing: 0.08em;
-            color: var(--white);
-            margin-bottom: 14px;
-            text-transform: uppercase;
-            opacity: 0.35;
-        }
-        .f-sub {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            color: var(--white);
-            line-height: 1.45;
-            margin-bottom: 40px;
-        }
-        .ngl-btn {
-            display: inline-block;
-            background: transparent;
-            color: var(--white);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 16px 40px;
-            font-family: 'Anton', sans-serif;
-            font-size: 12px;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            border-radius: 50px;
-        }
-        .ngl-btn:hover {
-            background: var(--white);
-            color: var(--bg);
-            transform: translateY(-2px);
-        }
-        .f-copy {
-            font-family: 'Space Mono', monospace;
-            font-size: 8px;
-            letter-spacing: 0.2em;
-            color: rgba(240,240,240,0.15);
-            margin-top: 40px;
-        }
-    </style>
+/* ANIMACIONES */
+@keyframes epicReveal { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); filter: blur(10px); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0px); } }
+@keyframes tlouErosionReveal { 0% { opacity: 0; filter: blur(14px); } 100% { opacity: 1; filter: blur(0px); } }
+@keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes appModernReveal { 0% { opacity: 0; transform: translateY(30px) scale(0.96); filter: blur(4px); } 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); } }
+@keyframes fadeInUp { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+</style>
 </head>
 <body>
 
-<!-- HERO -->
-<header>
-    <div class="hero-inner">
-        <div class="hero-eyebrow">Maxim Cruz</div>
-        <div class="hero-name">
-            <span class="n1">MAXIM</span>
-            <span class="n2">CRUZ</span>
-        </div>
-        <div class="hero-age">18 años</div>
+<div class="container">
+  <div class="about-me">
+    <div class="hero-bg">MAXIM</div>
+    <div class="hero-content">
+      <div class="hero-top">PROYECTO</div>
+      <h1>THE LAST ONE</h1>
     </div>
-</header>
+  </div>
 
-<!-- SOCIAL -->
-<div class="social-section">
-    <div class="social-handle">@maxim_cruz.x</div>
-    <a href="https://www.instagram.com/maxim_cruz.x" target="_blank" class="ig-btn">
-        <i class="fab fa-instagram"></i>
-        <span>Seguir en Instagram</span>
-    </a>
-    <div class="heart-wrap">
-        <a href="#" id="heartLink">
-            <i class="far fa-heart" id="heartIcon"></i>
-        </a>
+  <span class="section-title">Acerca de</span>
+  <div class="bio-container">
+    <p class="bio-text">Hola, soy Maxim. Diseñador enfocado en experiencias visuales de alto rendimiento y estética minimalista. Este espacio documenta mi camino.</p>
+    <div class="video-thumbnail" id="openVideo">
+      <img src="./WhatsApp Image 2026-05-24 at 12.03.41 AM.jpeg" alt="Perfil">
+      <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
     </div>
+  </div>
+
+  <div class="social-container">
+    <a href="LINK_FACEBOOK"><svg class="social-icon" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    <a href="LINK_NLG" class="nlg-link">NLG</a>
+    <a href="LINK_TIKTOK"><svg class="social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.77 0 2.89 2.89 0 0 1 2.89-2.89h.6V8.18h-.6a6.39 6.39 0 1 0 6.39 6.39V8.67a8.16 8.16 0 0 0 4.63 1.48v-3.46z"/></svg></a>
+  </div>
+
+  <div id="inlineVideoWrapper">
+    <div class="rec-indicator"><div class="red-dot"></div>REC</div>
+    <video id="inlineVideo" controls playsinline>
+      <source src="./Diseño sin título.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <span class="section-title">Progreso</span>
+  <div class="phone">
+    <div class="card">
+        <div class="habit">
+            <div class="left"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3"/><path d="M12 19v3"/></svg></div>
+            <div class="habit-info"><h3>0</h3><p>15 min</p></div></div>
+            <div class="progress" style="--percent:0%;"><span>0%</span></div>
+        </div>
+    </div>
+  </div>
 </div>
-
-<!-- ABOUT -->
-<div class="sl"><hr><span>Acerca de</span><hr></div>
-
-<div class="chat-wrap" id="chatWrap">
-
-    <div class="chat-msg chat-q">
-        <div class="chat-who">Visitante</div>
-        <div class="chat-bubble">¿Quién eres?</div>
-    </div>
-    <div class="chat-typing right" id="t1"><span></span><span></span><span></span></div>
-    <div class="chat-msg chat-a">
-        <div class="chat-who">Maxim</div>
-        <div class="chat-bubble">Soy Maximiliano. Estudio Robótica Industrial en el IPN.<br>Pero honestamente, es solo una parte de lo que soy.</div>
-        <div class="chat-tick">✓✓</div>
-    </div>
-
-    <div class="chat-msg chat-q">
-        <div class="chat-who">Visitante</div>
-        <div class="chat-bubble">¿Y qué más eres?</div>
-    </div>
-    <div class="chat-typing right" id="t2"><span></span><span></span><span></span></div>
-    <div class="chat-msg chat-a">
-        <div class="chat-who">Maxim</div>
-        <div class="chat-bubble">Alguien que comienza a amar el deporte, lee más de lo que duerme y piensa demasiado en cómo funciona el mundo.</div>
-        <div class="chat-tick">✓✓</div>
-    </div>
-
-    <div class="chat-msg chat-q">
-        <div class="chat-who">Visitante</div>
-        <div class="chat-bubble">¿Qué es lo que más te mueve?</div>
-    </div>
-    <div class="chat-typing right" id="t3"><span></span><span></span><span></span></div>
-    <div class="chat-msg chat-a">
-        <div class="chat-who">Maxim</div>
-        <div class="chat-bubble">Entender cómo algunas personas logran sus planes. Negocios, Desarrollo Personal, mentalidad — no como hobby, sino como obsesión.</div>
-        <div class="chat-tick">✓✓</div>
-    </div>
-
-    <div class="chat-msg chat-q">
-        <div class="chat-who">Visitante</div>
-        <div class="chat-bubble">¿Cómo eres realmente?</div>
-    </div>
-    <div class="chat-typing right" id="t4"><span></span><span></span><span></span></div>
-    <div class="chat-msg chat-a">
-        <div class="chat-who">Maxim</div>
-        <div class="chat-bubble">Tranquilo,Honesto y con buena Vibra.</div>
-        <div class="chat-tick">✓✓</div>
-    </div>
-
-</div>
-
-<!-- MUSIC -->
-<div class="music-section">
-    <div class="music-card">
-        <canvas class="music-canvas" id="musicCanvas"></canvas>
-        <div class="music-top">
-            <div class="music-label">Sonando ahora</div>
-            <div class="music-eq" id="musicEq">
-                <span></span><span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="music-info">
-            <div class="music-title">Melancólicos</div>
-            <div class="music-artist">Dedicado a todas esas personas que fueron importantes alguna vez</div>
-        </div>
-        <audio id="audioPlayer" preload="none">
-            <source src="Sebastián Yatra - Melancólicos Anónimos (Official Video).mp3" type="audio/mpeg">
-        </audio>
-        <div class="music-controls">
-            <div class="music-progress-wrap">
-                <div class="music-progress-bg">
-                    <div class="music-progress-fill" id="progressFill"></div>
-                </div>
-                <div class="music-times">
-                    <span id="currentTime">0:00</span>
-                    <span id="totalTime">0:00</span>
-                </div>
-            </div>
-            <button class="music-play-btn" id="playBtn">
-                <i class="fas fa-play" id="playIcon"></i>
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- GALLERY -->
-<div class="sl"><hr><span>Galería</span><hr></div>
-<div class="gallery-section">
-    <div class="g-track" id="gallery">
-        <div class="g-card">
-            <div class="g-card-inner">
-                <img src="NEW.png" alt="Foto 1">
-            </div>
-            <div class="g-card-num">01 / 05</div>
-        </div>
-        <div class="g-card">
-            <div class="g-card-inner">
-                <img src="NEW2.png" alt="Foto 2">
-            </div>
-            <div class="g-card-num">02 / 05</div>
-        </div>
-        <div class="g-card">
-            <div class="g-card-inner">
-                <img src="NEW3.png" alt="Foto 3">
-            </div>
-            <div class="g-card-num">03 / 05</div>
-        </div>
-        <div class="g-card">
-            <div class="g-card-inner">
-                <img src="NEW4.png" alt="Foto 4">
-            </div>
-            <div class="g-card-num">04 / 05</div>
-        </div>
-        <div class="g-card">
-            <div class="g-card-inner">
-                <img src="new5.png" alt="Foto 5">
-            </div>
-            <div class="g-card-num">05 / 05</div>
-        </div>
-    </div>
-    <div class="g-dots" id="gDots"></div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-    <div class="f-name">Hola, soy Maxim.</div>
-    <div class="f-sub">¿Algo que decir,<br>preguntar o confesar?<br>Aquí nadie te juzga.</div>
-    <a href="https://ngl.link/maxim72941?fbclid=PAZXh0bgNhZW0CMTEAAafoBKD4GvvpOOLgqtEtVMZreKFUB5M2KYM3UV-Zdz9xoAF19YFGxUwAEYRTew_aem_buxV7cg1iY3qeb6wLo6Mjg" target="_blank">
-        <button class="ngl-btn">Mensaje anónimo — NGL</button>
-    </a>
-    <div class="f-copy">© 2025 Maxim Cruz · Desarrollado por Maxim</div>
-</footer>
 
 <script>
-    // Heart
-    document.getElementById('heartLink').addEventListener('click', e => {
-        e.preventDefault();
-        document.getElementById('heartIcon').classList.replace('far','fas');
-        document.getElementById('heartLink').classList.add('liked');
-    });
-
-    // Music canvas
-    const canvas = document.getElementById('musicCanvas');
-    const ctx = canvas.getContext('2d');
-    let animFrame = null;
-    let isPlaying = false;
-
-    function resizeCanvas() {
-        canvas.width = canvas.parentElement.offsetWidth;
-        canvas.height = canvas.parentElement.offsetHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const beams = Array.from({ length: 24 }, () => ({
-        angle: Math.random() * Math.PI * 2,
-        speed: 0.002 + Math.random() * 0.003,
-        length: 0.2 + Math.random() * 0.5,
-        width: 0.5 + Math.random() * 1.5,
-        opacity: 0.04 + Math.random() * 0.08,
-        phase: Math.random() * Math.PI * 2,
-    }));
-
-    const orbs = Array.from({ length: 4 }, (_, i) => ({
-        angle: (i / 4) * Math.PI * 2,
-        speed: 0.004 + Math.random() * 0.003,
-        radius: 0.2 + Math.random() * 0.25,
-        size: 60 + Math.random() * 80,
-        color: ['255,255,255','200,200,255','255,220,200','180,255,220'][i],
-    }));
-
-    let tick = 0;
-
-    function drawAura() {
-        if (!isPlaying) return;
-        tick += 0.012;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const cx = canvas.width / 2, cy = canvas.height / 2;
-        const r = Math.min(canvas.width, canvas.height) * 0.5;
-        orbs.forEach(o => {
-            o.angle += o.speed;
-            const ox = cx + Math.cos(o.angle) * r * o.radius;
-            const oy = cy + Math.sin(o.angle) * r * o.radius;
-            const g = ctx.createRadialGradient(ox, oy, 0, ox, oy, o.size);
-            g.addColorStop(0, `rgba(${o.color},0.07)`);
-            g.addColorStop(1, `rgba(${o.color},0)`);
-            ctx.beginPath(); ctx.arc(ox, oy, o.size, 0, Math.PI * 2);
-            ctx.fillStyle = g; ctx.fill();
-        });
-        beams.forEach(b => {
-            b.angle += b.speed;
-            const pulse = 0.5 + 0.5 * Math.sin(tick * 2 + b.phase);
-            const op = b.opacity * pulse;
-            const x2 = cx + Math.cos(b.angle) * r * b.length;
-            const y2 = cy + Math.sin(b.angle) * r * b.length;
-            const grad = ctx.createLinearGradient(cx, cy, x2, y2);
-            grad.addColorStop(0, `rgba(255,255,255,${op * 1.5})`);
-            grad.addColorStop(1, `rgba(255,255,255,0)`);
-            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x2, y2);
-            ctx.strokeStyle = grad; ctx.lineWidth = b.width; ctx.stroke();
-        });
-        animFrame = requestAnimationFrame(drawAura);
-    }
-
-    function stopAura() {
-        cancelAnimationFrame(animFrame);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    const audio = document.getElementById('audioPlayer');
-    const playBtn = document.getElementById('playBtn');
-    const playIcon = document.getElementById('playIcon');
-    const progressFill = document.getElementById('progressFill');
-    const currentTimeEl = document.getElementById('currentTime');
-    const totalTimeEl = document.getElementById('totalTime');
-    const musicEq = document.getElementById('musicEq');
-    const musicCard = document.querySelector('.music-card');
-    const musicCover = document.querySelector('.music-cover');
-
-    function formatTime(s) {
-        return `${Math.floor(s/60)}:${Math.floor(s%60).toString().padStart(2,'0')}`;
-    }
-
-    function burst() {
-        const rect = playBtn.getBoundingClientRect();
-        const cardRect = musicCard.getBoundingClientRect();
-        const cx = rect.left - cardRect.left + rect.width / 2;
-        const cy = rect.top - cardRect.top + rect.height / 2;
-        if (!document.getElementById('sparkStyle')) {
-            const s = document.createElement('style');
-            s.id = 'sparkStyle';
-            s.textContent = `@keyframes spark{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(0);opacity:0}}.spark{overflow:visible}`;
-            document.head.appendChild(s);
-        }
-        for (let i = 0; i < 18; i++) {
-            const p = document.createElement('span');
-            p.className = 'spark';
-            const angle = (i / 18) * 360;
-            const dist = 40 + Math.random() * 40;
-            const size = 3 + Math.random() * 4;
-            const dur = 500 + Math.random() * 300;
-            p.style.cssText = `position:absolute;left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;border-radius:50%;background:#fff;pointer-events:none;transform:translate(-50%,-50%);animation:spark ${dur}ms ease-out forwards;--dx:${Math.cos(angle*Math.PI/180)*dist}px;--dy:${Math.sin(angle*Math.PI/180)*dist}px`;
-            musicCard.appendChild(p);
-            setTimeout(() => p.remove(), dur + 50);
-        }
-    }
-
-    playBtn.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
-            playIcon.classList.replace('fa-play','fa-pause');
-            playBtn.classList.add('playing');
-            musicEq.classList.add('playing');
-            canvas.classList.add('active');
-            musicCover.classList.add('active');
-            isPlaying = true;
-            burst();
-            drawAura();
-        } else {
-            audio.pause();
-            playIcon.classList.replace('fa-pause','fa-play');
-            playBtn.classList.remove('playing');
-            musicEq.classList.remove('playing');
-            canvas.classList.remove('active');
-            musicCover.classList.remove('active');
-            isPlaying = false;
-            stopAura();
-        }
-    });
-
-    audio.addEventListener('timeupdate', () => {
-        if (!audio.duration) return;
-        progressFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-    });
-
-    audio.addEventListener('loadedmetadata', () => {
-        totalTimeEl.textContent = formatTime(audio.duration);
-    });
-
-    audio.addEventListener('ended', () => {
-        playIcon.classList.replace('fa-pause','fa-play');
-        playBtn.classList.remove('playing');
-        musicEq.classList.remove('playing');
-        canvas.classList.remove('active');
-        musicCover.classList.remove('active');
-        isPlaying = false;
-        stopAura();
-        progressFill.style.width = '0%';
-        currentTimeEl.textContent = '0:00';
-    });
-
-    document.querySelector('.music-progress-bg').addEventListener('click', function(e) {
-        const pct = (e.clientX - this.getBoundingClientRect().left) / this.offsetWidth;
-        audio.currentTime = pct * audio.duration;
-    });
-
-    // Pausar audio al salir de la página
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden && !audio.paused) {
-            audio.pause();
-            playIcon.classList.replace('fa-pause','fa-play');
-            playBtn.classList.remove('playing');
-            musicEq.classList.remove('playing');
-            canvas.classList.remove('active');
-            isPlaying = false;
-            stopAura();
-        }
-    });
-
-    window.addEventListener('pagehide', () => {
-        audio.pause();
-    });
-    const gc = document.getElementById('gallery');
-    const cards = gc.querySelectorAll('.g-card-inner');
-    const dotsWrap = document.getElementById('gDots');
-
-    cards.forEach((_, i) => {
-        const d = document.createElement('div');
-        d.className = 'g-dot' + (i === 0 ? ' active' : '');
-        d.addEventListener('click', () => gc.scrollTo({ left: i * gc.clientWidth, behavior: 'smooth' }));
-        dotsWrap.appendChild(d);
-    });
-
-    cards[0].classList.add('vis');
-
-    gc.addEventListener('scroll', () => {
-        const idx = Math.round(gc.scrollLeft / gc.clientWidth);
-        dotsWrap.querySelectorAll('.g-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-        cards[idx].classList.add('vis');
-    }, { passive: true });
-
-    let gTx = 0;
-    gc.addEventListener('touchstart', e => { gTx = e.changedTouches[0].screenX; }, { passive: true });
-    gc.addEventListener('touchend', e => {
-        const diff = gTx - e.changedTouches[0].screenX;
-        if (Math.abs(diff) > 80) {
-            const cur = Math.round(gc.scrollLeft / gc.clientWidth);
-            gc.scrollTo({ left: Math.max(0, Math.min(cur + (diff > 0 ? 1 : -1), cards.length - 1)) * gc.clientWidth, behavior: 'smooth' });
-        }
-    }, { passive: true });
-
-    // Chat — solo primera vez por sesión
-    const allQ = document.querySelectorAll('.chat-q');
-    const allA = document.querySelectorAll('.chat-a');
-    const allT = document.querySelectorAll('.chat-typing');
-
-    if (sessionStorage.getItem('chatSeen')) {
-        allQ.forEach(el => el.classList.add('in'));
-        allA.forEach(el => el.classList.add('in'));
-        allT.forEach(el => el.style.display = 'none');
-    } else {
-        let chatStarted = false;
-        const chatTrigger = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !chatStarted) {
-                chatStarted = true;
-                sessionStorage.setItem('chatSeen', '1');
-                runChat();
-                chatTrigger.disconnect();
-            }
-        }, { threshold: 0.1 });
-        chatTrigger.observe(document.getElementById('chatWrap'));
-    }
-
-    function runChat() {
-        let delay = 0;
-        for (let i = 0; i < allQ.length; i++) {
-            const q = allQ[i], typing = allT[i], a = allA[i];
-            setTimeout(() => q.classList.add('in'), delay);
-            delay += 500;
-            setTimeout(() => typing.classList.add('show'), delay);
-            delay += 1400;
-            setTimeout(() => {
-                typing.classList.remove('show');
-                setTimeout(() => a.classList.add('in'), 150);
-            }, delay);
-            delay += 800;
-        }
-    }
+  const btn = document.getElementById("openVideo");
+  const wrapper = document.getElementById("inlineVideoWrapper");
+  const video = document.getElementById("inlineVideo");
+  btn.onclick = function() { wrapper.classList.add("active"); video.play(); }
+  video.onended = function() { wrapper.classList.remove("active"); video.pause(); video.currentTime = 0; }
 </script>
 </body>
 </html>
